@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ image_file }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+        </div>
+    </div>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Reset Password</legend>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                </div>
+                {% if form.password.errors %}
+                {{form.password(class="form-control form-control-lg is-invalid",placeholder="Password")}}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors%}
+                    <span>{{error}}</span>
+                    {%endfor%}
+                </div>
+                {% else %}
+                {{form.password(class="form-control",placeholder="Password",type="password")}}
+                {% endif %}
+            </div>
+            {{form.confirm_password.label(class="sr-only")}}
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                </div>
+                {% if form.confirm_password.errors %}
+                {{form.confirm_password(class="form-control is-invalid",placeholder="ConfirmPassword")}}
+                <div class="invalid-feedback">
+                    {% for error in form.confirm_password.errors%}
+                    <span>{{error}}</span>
+                    {%endfor%}
+                </div>
+                {% else %}
+                {{form.confirm_password(class="form-control",placeholder="Confirm Password",type="password")}}
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+    </form>
+</div>
+{% endblock content %}

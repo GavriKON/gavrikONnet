@@ -1,0 +1,104 @@
+{% extends "home.html"%}
+{% block modal %}
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding-bottom: 10px;">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Sign Up</h4>
+                <a href="{{url_for('main.home')}}"><button type="button" class="close">×</button></a>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+
+                    {{form.username.label(class="sr-only")}}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                        </div>
+                        {% if form.username.errors %}
+                        {{form.username(class="form-control is-invalid",placeholder="Username")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors%}
+                            <span>{{error}}</span>
+                            {%endfor%}
+                        </div>
+                        {% else %}
+                        {{form.username(class="form-control",placeholder="Username")}}
+                        {% endif %}
+                    </div>
+                    {{form.email.label(class="sr-only")}}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                        </div>
+                        {% if form.email.errors %}
+                        {{form.email(class="form-control is-invalid",placeholder="Email")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors%}
+                            <span>{{error}}</span>
+                            {%endfor%}
+                        </div>
+                        {% else %}
+                        {{form.email(class="form-control",placeholder="Email")}}
+                        {% endif %}
+                    </div>
+
+
+
+                    {{form.password.label(class="sr-only")}}
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                        </div>
+                        {% if form.password.errors %}
+                        {{form.password(class="form-control form-control-lg is-invalid",placeholder="Password")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors%}
+                            <span>{{error}}</span>
+                            {%endfor%}
+                        </div>
+                        {% else %}
+                        {{form.password(class="form-control",placeholder="Password",type="password")}}
+                        {% endif %}
+                    </div>
+
+                    {{form.confirm_password.label(class="sr-only")}}
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-key"></i></span>
+                        </div>
+                        {% if form.confirm_password.errors %}
+                        {{form.confirm_password(class="form-control is-invalid",placeholder="ConfirmPassword")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_password.errors%}
+                            <span>{{error}}</span>
+                            {%endfor%}
+                        </div>
+                        {% else %}
+                        {{form.confirm_password(class="form-control",placeholder="Confirm Password",type="password")}}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        {{ form.submit(class="btn btn-primary") }}
+                        <a href="{{url_for('main.home')}}"><button type="button" class="btn btn-danger">Close</button></a>
+                    </div>
+                    <div class="border-top pt-3" style="text-align: center;">
+                        <small class="text-muted">
+                            Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign Up</a>
+                        </small>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+
+        </div>
+
+    </div>
+</div>
+{% endblock modal %}
