@@ -10,6 +10,7 @@
     margin-right: 15px;
 }
 
+
 body {
     background: #fafafa;
     color: #333333;
@@ -103,4 +104,12 @@ a.article-title:hover {
 .chngpsw:hover {
     background-color: rgb(108 117 125 / 25%);
     border-color: rgb(108 117 125 / 25%);
+}
+
+@media (max-width: 980px) {
+
+    /* показываем кнопку для переключения верхней навигации */
+    .nav-item {
+        margin-bottom: 10px;
+    }
 }
