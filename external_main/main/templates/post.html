@@ -9,7 +9,9 @@
             <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username )}}">{{ post.author.username }}</a>
             <small class="text-muted">{{ post.data_posted.strftime('%Y-%m-%d %H:%M:%S') }}</small>
         </div>
+        {% if post.post_picture %}
         <img class="img-fluid" src="{{ picture }}">
+        {% endif %}
         <h2><a class="article-title">{{ post.title }}</a></h2>
         <p class="article-content">{{ post.content }}</p>
         {% if post.author == current_user %}

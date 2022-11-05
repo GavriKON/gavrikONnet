@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import current_user, login_required
 from main.models import Post
+from datetime import datetime
 from main.posts.forms import PostForm
 from main import db
 from main.users.utils import save_picture
@@ -30,7 +31,10 @@ def new_post():
         if form.picture.data:
             picture_file = save_picture(form.picture.data,
                                         img_path='posts_images')
+        else:
+            picture_file = None
         post = Post(title=form.title.data,
+        data_posted=datetime.utcnow(),
                     content=form.content.data,
                     author=current_user,
                     post_picture=picture_file)
