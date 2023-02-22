@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
                            default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
-
+    comments = db.relationship('Comment', backref='user', passive_deletes=True)
     def get_reset_token(self):
         s = Serializer(current_app.config['SECRET_KEY'], )
         return s.dumps({"user_id": self.id})
@@ -47,6 +47,17 @@ class Post(db.Model):
 
     post_picture = db.Column(db.String(20), nullable=True, default=None)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
+    comments = db.relationship('Comment', backref='post', passive_deletes=True)
     def __repr__(self):
         return f"User('{self.title}', '{self.data_posted}')"
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime,
+                            nullable=False,
+                            default=datetime.utcnow())
+    author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey(
+        'post.id', ondelete="CASCADE"), nullable=False)

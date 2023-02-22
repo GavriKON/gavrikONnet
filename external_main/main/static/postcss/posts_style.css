@@ -106,6 +106,15 @@ a.article-title:hover {
     border-color: rgb(108 117 125 / 25%);
 }
 
+.delete-button {
+    text-decoration: none;
+}
+
+a.delete-button:hover {
+    color: #bb1e1e;
+    text-decoration: none;
+}
+
 @media (max-width: 980px) {
 
     /* показываем кнопку для переключения верхней навигации */

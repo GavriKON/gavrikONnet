@@ -7,12 +7,8 @@ services:
     container_name: flask_azz_yt
     command: gunicorn --bind 0.0.0.0:5000 run:app # WSGI server
     restart: always
-    environment:
-      - DATABASE_URL=postgresql://az_user:az_psw@db:5432/az_dbname # путь до бд, см. db service
-      - SECRET_KEY=dce6f1185c254cx/220f271c97f549ba67
-      - EMAIL_USER=gavrilin115@gmail.com
-      - EMAIL_PASS=jmekoqowxspikngt
-      - FLASK_APP = run.py
+    env_file:
+      - ./.env
     volumes:
       - ./external_main:/app
     expose:
@@ -23,19 +19,14 @@ services:
     image: postgres:13-alpine
     volumes:
       - ./pg_db:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=az_user
-      - POSTGRES_PASSWORD=az_psw
-      - POSTGRES_DB=az_dbname
+    env_file:
+      - ./.env
   pgadmin:
     image: dpage/pgadmin4
     depends_on:
       - db
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=root@azzrael.ru
-      - PGADMIN_DEFAULT_PASSWORD=azzrael_code_yt # если сменить здесь, то нужно удалить контентер
-      - PGADMIN_LISTEN_ADDRESS=0.0.0.0 # чтобы не было косяков с nginx лушче в одну сеть с app
-      - PGADMIN_LISTEN_PORT=5555
+    env_file:
+      - ./.env
   nginx:
     build: ./nginx
     ports:

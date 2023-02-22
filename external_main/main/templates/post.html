@@ -23,6 +23,42 @@
         {% endif %}
     </div>
 </article>
+<form method="POST" action="{{ url_for('posts.create_comment', post_id = post.id) }}"">
+    <div class="bg-light p-2">
+        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{ current_user_image_file }}" width="40">{{ form.content(id="myTextarea", class="form-control ml-1 shadow-none textarea") }}</div>
+        <div class="mt-2 text-right">{{ form.submit(class="btn btn-primary btn-sm shadow-none", type="submit") }}<button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button" id="btn">Reset</button></div>
+    </div>
+</form>
+{% block comments %}
+    {% if post.comments | length > 0 %}
+        <div class="card-body text-center">
+            <h4 class="display-4 card-title">Latest Comments</h4>
+        </div>
+        {% for comment in post.comments | sort(attribute='date_created', reverse=True) %}
+            <div class="bg-white p-2 bg-white p-2 border border-bottom-0">
+                <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{ url_for('static', filename = 'profile_pics/' + comment.user.image_file) }}" width="40">
+                    <div class="d-flex flex-column justify-content-start ml-2"><a href="{{ url_for('users.user_posts', username= comment.user.username )}}" class="d-block font-weight-bold name" >{{ comment.user.username }}</a><span class="date text-black-50">{{ comment.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</span></div>
+                </div>
+                <div class="mt-2">
+                    <p class="comment-text">{{ comment.text }}</p>
+                </div>
+            </div>
+            <div>
+                <div class="border border-top-0 bg-white d-flex flex-row fs-12" style="margin-bottom: 20px;">
+                    <div class="like p-2 cursor"><i class="fa fa fa-thumbs-up"></i><span class="ml-1">Like</span></div>
+                    <div class="like p-2 cursor"><i class="fa fa-comment"></i><span class="ml-1">Comment</span></div>
+                    {% if current_user.id == comment.author %}
+                    <div class="like ml-auto p-2 cursor"><a href = "{{ url_for('posts.delete_comment', comment_id = comment.id )}}" class="delete-button"><i class="fa fa-trash"></i><span class="ml-1">Delete</span></a></div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="card-body text-center">
+            <h4 class="card-title">No Comments</h4>
+        </div>
+    {% endif %}
+{% endblock comments%}
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
     aria-hidden="true">
@@ -55,5 +91,21 @@
     for (const input of inputs) {
         input.removeAttribute('required');
     }
+    const textarea = document.getElementById('myTextarea');
+
+    // ✅ Clear textarea value
+    textarea.value = '';
+
+    // ✅ Clear textarea value on click
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('click', function handleClick() {
+    // 👇️ log value before clearing it
+    console.log(textarea.value);
+
+    // 👇️ clear textarea value
+    textarea.value = '';
+    });
+    
 </script>
 {% endblock script %}
